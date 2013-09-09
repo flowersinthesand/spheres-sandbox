@@ -1,4 +1,4 @@
-spheres-sandbox
+Spheres
 ===============
 
-Spheres sandbox
+Sandbox for Spheres
