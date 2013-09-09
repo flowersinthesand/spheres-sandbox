@@ -15,3 +15,6 @@ cd spheres-sandbox
 mvn package vertx:runMod
 ```
 Then, open a browser and connect to `http://localhost:8080`. You can change port number by appending `-Dport=${number}` to `mvn` command. If you run multiple applications, you can see that those applications are clustered.
+
+### Bootstrap class
+See, https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/samples/chat/ChatVerticle.java
