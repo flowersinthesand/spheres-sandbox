@@ -4,25 +4,25 @@ Spheres (sandbox)
 Spheres is a realtime web application framework that runs on the JVM.
 
 ## Main interface
-### For application developer
+### For the Application developer
 * [Spheres](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/Spheres.java)
 * [App](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/App.java)
 * [Session](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/portal/Session.java) by the Portal
 
-### For bridge provider
+### For the Bridge provider
 * [Bridge](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/Bridge.java)
 * [Transport](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/Transport.java)
  * [HttpExchange](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/HttpExchange.java)
  * [WebSocket](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/WebSocket.java)
 
-### For protocol provider
+### For the Protocol provider
 * [Protocol](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/Protocol.java)
 * [Socket](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/Socket.java)
  * [HttpSocket](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/HttpSocket.java)
  * [WsSocket](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/WsSocket.java)
 * [SessionBase](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/SessionBase.java)
 
-### For messenger provider
+### For the Messenger provider
 * [Messenger](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/Messenger.java)
 * [MessageHolder](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/MessageHolder.java)
 
