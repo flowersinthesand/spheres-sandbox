@@ -9,9 +9,9 @@ import org.vertx.java.platform.Verticle;
 
 import com.github.flowersinthesand.spheres.Action;
 import com.github.flowersinthesand.spheres.App;
+import com.github.flowersinthesand.spheres.AppProxy;
 import com.github.flowersinthesand.spheres.Options;
 import com.github.flowersinthesand.spheres.SerializableAction;
-import com.github.flowersinthesand.spheres.Spheres;
 import com.github.flowersinthesand.spheres.hazelcast.HazelcastMessenger;
 import com.github.flowersinthesand.spheres.portal.PortalProtocol;
 import com.github.flowersinthesand.spheres.portal.Session;
@@ -44,7 +44,7 @@ public class ChatVerticle extends Verticle {
 		.protocol(new PortalProtocol())
 		.messenger(new HazelcastMessenger(HazelcastInstanceFactory.newHazelcastInstance(new Config())));
 		
-		app = Spheres.createApp(options);
+		app = new AppProxy(options);
 		app.sessionAction(new Action<Session>() {
 			@Override
 			public void on(Session session) {
