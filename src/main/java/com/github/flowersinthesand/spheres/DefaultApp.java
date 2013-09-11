@@ -12,7 +12,7 @@ public class DefaultApp implements App, AppInside {
 	private ConcurrentMap<Socket, SessionBase> sessions = new ConcurrentHashMap<>();
 	private Actions<Void> closeActions = new ConcurrentActions<>(new Actions.Options().once(true).memory(true));
 
-	public DefaultApp(Options options) {
+	DefaultApp(Options options) {
 		this.options = options;
 		bridge = options.bridge();
 		protocol = options.protocol();
