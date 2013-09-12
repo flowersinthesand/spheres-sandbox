@@ -34,6 +34,41 @@ mvn javadoc:javadoc
 ```
 Then, open a browser and connect to `target/apidocs/index.html`.
 
+## Module
+
+The following modules are expected to be prepared.
+* core
+* bridge
+ * vertx
+ * play
+ * netty
+ * servlet3: provides only HttpExchange
+ * servlet31: provides only HttpExchange
+ * jsr356: provides only WebSocket
+ * jee7: servlet31 + jsr356
+ * jetty
+ * tomcat
+ * weblogic
+ * jboss
+ * jeus
+ * gwt(?)
+* protocol
+ * portal
+ * atmosphere
+ * socketio
+ * sockjs
+ * ws
+ * sse
+ * jsr356(?)
+* messenger
+ * hazelcast
+ * redis
+ * jms
+ * rabbitmq
+ * rmi
+ * xmpp(?)
+ * jgroups
+
 ## Application
 
 A sample application to demonstrate what the Spheres is based on Vert.x, Portal and Hazelcast.
