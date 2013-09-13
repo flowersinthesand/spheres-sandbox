@@ -1,5 +1,7 @@
 package com.github.flowersinthesand.spheres;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -111,6 +113,18 @@ public class DefaultApp implements App, AppInside {
 	public App byTag(String name, Action<? extends SessionBase> action) {
 		for (Socket socket : sockets.values()) {
 			if (socket.tags().contains(name)) {
+				((Action<SessionBase>) action).on(sessions.get(socket));
+			}
+		}
+		return this;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public App byTag(String[] names, Action<? extends SessionBase> action) {
+		List<String> nameList = Arrays.asList(names);
+		for (Socket socket : sockets.values()) {
+			if (socket.tags().containsAll(nameList)) {
 				((Action<SessionBase>) action).on(sessions.get(socket));
 			}
 		}

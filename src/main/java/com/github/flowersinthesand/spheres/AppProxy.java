@@ -28,7 +28,14 @@ public class AppProxy implements App {
 				} else if (methodName.equals("byId")) {
 					app.byId((String) message.get("arg0"), (Action) message.get("arg1"));
 				} else if (methodName.equals("byTag")) {
-					app.byTag((String) message.get("arg0"), (Action) message.get("arg1"));
+					Object arg0 = message.get("arg0");
+					if (arg0 instanceof String) {
+						app.byTag((String) arg0, (Action) message.get("arg1"));
+					} else if (arg0 instanceof String[]) {
+						app.byTag((String[]) arg0, (Action) message.get("arg1"));
+					} else {
+						throw new UnsupportedOperationException();
+					}
 				} else {
 					throw new UnsupportedOperationException();
 				}
@@ -60,6 +67,12 @@ public class AppProxy implements App {
 	@Override
 	public App byTag(String name, Action<? extends SessionBase> action) {
 		publishMessage("byTag", name, castSerializable(action));
+		return this;
+	}
+	
+	@Override
+	public App byTag(String[] names, Action<? extends SessionBase> action) {
+		publishMessage("byTag", names, castSerializable(action));
 		return this;
 	}
 

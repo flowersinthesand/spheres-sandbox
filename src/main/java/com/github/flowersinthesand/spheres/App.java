@@ -31,6 +31,13 @@ public interface App {
 	App byTag(String name, Action<? extends SessionBase> action);
 
 	/**
+	 * Finds the session whose the underlying socket has been tagged with the the specified tag
+	 * names and executes the given action. See, {@link SerializableAction} if you are going to
+	 * cluster the application.
+	 */
+	App byTag(String[] names, Action<? extends SessionBase> action);
+
+	/**
 	 * Registers an action to be called when the HttpExchange is prepared.
 	 */
 	App httpAction(Action<HttpExchange> action);
