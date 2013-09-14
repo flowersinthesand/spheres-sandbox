@@ -2,11 +2,11 @@ package com.github.flowersinthesand.spheres;
 
 import java.util.Map;
 
-public abstract class ProtocolSupport implements Protocol, AppInsideAware {
+public abstract class ProtocolSupport implements Protocol, ManagerInsideAware {
 
 	protected Actions<Socket> socketActions = new ConcurrentActions<>(new Actions.Options());
 	protected Actions<SessionBase> sessionActions = new ConcurrentActions<>(new Actions.Options());
-	protected AppInside app;
+	protected ManagerInside manager;
 	protected Map<String, Socket> sockets;
 
 	@Override
@@ -20,9 +20,9 @@ public abstract class ProtocolSupport implements Protocol, AppInsideAware {
 	}
 
 	@Override
-	public void setAppInside(AppInside app) {
-		this.app = app;
-		this.sockets = app.sockets();
+	public void setManagerInside(ManagerInside manager) {
+		this.manager = manager;
+		this.sockets = manager.sockets();
 	}
 
 }

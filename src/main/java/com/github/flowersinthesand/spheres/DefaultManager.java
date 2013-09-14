@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-public class DefaultApp implements App, AppInside {
+public class DefaultManager implements Manager, ManagerInside {
 
 	private final Options options;
 	private final Bridge bridge;
@@ -14,7 +14,7 @@ public class DefaultApp implements App, AppInside {
 	private ConcurrentMap<Socket, SessionBase> sessions = new ConcurrentHashMap<>();
 	private Actions<Void> closeActions = new ConcurrentActions<>(new Actions.Options().once(true).memory(true));
 
-	DefaultApp(Options options) {
+	DefaultManager(Options options) {
 		this.options = options;
 		bridge = options.bridge();
 		protocol = options.protocol();
@@ -70,8 +70,8 @@ public class DefaultApp implements App, AppInside {
 		});
 
 		for (Object comp : new Object[] { bridge, protocol }) {
-			if (comp instanceof AppInsideAware) {
-				((AppInsideAware) comp).setAppInside(this);
+			if (comp instanceof ManagerInsideAware) {
+				((ManagerInsideAware) comp).setManagerInside(this);
 			}
 			if (comp instanceof Initable) {
 				((Initable) comp).init();
@@ -91,7 +91,7 @@ public class DefaultApp implements App, AppInside {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public App all(Action<? extends SessionBase> action) {
+	public Manager all(Action<? extends SessionBase> action) {
 		for (Socket socket : sockets.values()) {
 			((Action<SessionBase>) action).on(sessions.get(socket));
 		}
@@ -100,7 +100,7 @@ public class DefaultApp implements App, AppInside {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public App byId(String id, Action<? extends SessionBase> action) {
+	public Manager byId(String id, Action<? extends SessionBase> action) {
 		Socket socket = sockets.get(id);
 		if (socket != null) {
 			((Action<SessionBase>) action).on(sessions.get(socket));
@@ -110,7 +110,7 @@ public class DefaultApp implements App, AppInside {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public App byTag(String name, Action<? extends SessionBase> action) {
+	public Manager byTag(String name, Action<? extends SessionBase> action) {
 		for (Socket socket : sockets.values()) {
 			if (socket.tags().contains(name)) {
 				((Action<SessionBase>) action).on(sessions.get(socket));
@@ -121,7 +121,7 @@ public class DefaultApp implements App, AppInside {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public App byTag(String[] names, Action<? extends SessionBase> action) {
+	public Manager byTag(String[] names, Action<? extends SessionBase> action) {
 		List<String> nameList = Arrays.asList(names);
 		for (Socket socket : sockets.values()) {
 			if (socket.tags().containsAll(nameList)) {
@@ -132,32 +132,32 @@ public class DefaultApp implements App, AppInside {
 	}
 
 	@Override
-	public App httpAction(Action<HttpExchange> action) {
+	public Manager httpAction(Action<HttpExchange> action) {
 		bridge.httpActions().add(action);
 		return this;
 	}
 
 	@Override
-	public App webSocketAction(Action<WebSocket> action) {
+	public Manager webSocketAction(Action<WebSocket> action) {
 		bridge.webSocketActions().add(action);
 		return this;
 	}
 
 	@Override
-	public App socketAction(Action<Socket> action) {
+	public Manager socketAction(Action<Socket> action) {
 		protocol.socketActions().add(action);
 		return this;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public App sessionAction(Action<? extends SessionBase> action) {
+	public Manager sessionAction(Action<? extends SessionBase> action) {
 		protocol.sessionActions().add((Action) action);
 		return this;
 	}
 
 	@Override
-	public App closeAction(Action<Void> action) {
+	public Manager closeAction(Action<Void> action) {
 		closeActions.add(action);
 		return this;
 	}

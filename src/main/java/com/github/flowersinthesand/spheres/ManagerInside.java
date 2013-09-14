@@ -3,14 +3,14 @@ package com.github.flowersinthesand.spheres;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * The AppInside provides services for internal use only and any operation on this instance affects
+ * This interface provides services for internal use only and any operation on this instance affects
  * only local application.
  * <p>
  * This interface is not designed to be used by the application developer.
  * 
  * @author Donghwan Kim
  */
-public interface AppInside extends App {
+public interface ManagerInside extends Manager {
 
 	/**
 	 * Initializes the application.

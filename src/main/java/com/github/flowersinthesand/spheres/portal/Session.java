@@ -6,7 +6,8 @@ import com.github.flowersinthesand.spheres.SessionBase;
 import com.github.flowersinthesand.spheres.Taggable;
 import com.github.flowersinthesand.spheres.UriAccessor;
 
-public interface Session extends SessionBase, Identifiable, UriAccessor, Taggable {
+public interface Session extends SessionBase, Identifiable, UriAccessor, Taggable,
+		SharedSessionContract<Session> {
 
 	Session on(String event, Action<?> action);
 
@@ -14,16 +15,6 @@ public interface Session extends SessionBase, Identifiable, UriAccessor, Taggabl
 
 	Session once(String event, Action<?> action);
 
-	Session tag(String... name);
-
-	Session untag(String... name);
-
-	Session send(String event);
-
-	Session send(String event, Object data);
-
 	Session send(String event, Object data, Action<?> reply);
-
-	void close();
 
 }

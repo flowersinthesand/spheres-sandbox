@@ -1,7 +1,7 @@
 package com.github.flowersinthesand.spheres;
 
 /**
- * Options to create an App.
+ * Options to create an Manager.
  * 
  * @author Donghwan Kim
  */

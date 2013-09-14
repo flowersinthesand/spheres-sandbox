@@ -4,18 +4,18 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class AppProxy implements App {
+public class ManagerProxy implements Manager {
 
-	private final AppInside app;
+	private final ManagerInside manager;
 	private final Messenger messenger;
 
-	public AppProxy(final Options o) {
+	public ManagerProxy(final Options o) {
 		if (o.messenger() == null) {
 			o.messenger(new FriendlessMessenger());
 		}
 		Options options = new LockedOptions(o);
-		app = new DefaultApp(options);
-		app.install();
+		manager = new DefaultManager(options);
+		manager.install();
 		messenger = options.messenger();
 		messenger.messageActions().add(new Action<MessageHolder>() {
 			@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -24,15 +24,15 @@ public class AppProxy implements App {
 				Map<String, Serializable> message = holder.get();
 				String methodName = (String) message.get("methodName");
 				if (methodName.equals("all")) {
-					app.all((Action) message.get("arg0"));
+					manager.all((Action) message.get("arg0"));
 				} else if (methodName.equals("byId")) {
-					app.byId((String) message.get("arg0"), (Action) message.get("arg1"));
+					manager.byId((String) message.get("arg0"), (Action) message.get("arg1"));
 				} else if (methodName.equals("byTag")) {
 					Object arg0 = message.get("arg0");
 					if (arg0 instanceof String) {
-						app.byTag((String) arg0, (Action) message.get("arg1"));
+						manager.byTag((String) arg0, (Action) message.get("arg1"));
 					} else if (arg0 instanceof String[]) {
-						app.byTag((String[]) arg0, (Action) message.get("arg1"));
+						manager.byTag((String[]) arg0, (Action) message.get("arg1"));
 					} else {
 						throw new UnsupportedOperationException();
 					}
@@ -43,8 +43,8 @@ public class AppProxy implements App {
 		});
 
 		for (Object comp : new Object[] { messenger }) {
-			if (comp instanceof AppInsideAware) {
-				((AppInsideAware) comp).setAppInside(app);
+			if (comp instanceof ManagerInsideAware) {
+				((ManagerInsideAware) comp).setManagerInside(manager);
 			}
 			if (comp instanceof Initable) {
 				((Initable) comp).init();
@@ -53,25 +53,25 @@ public class AppProxy implements App {
 	}
 
 	@Override
-	public App all(Action<? extends SessionBase> action) {
+	public Manager all(Action<? extends SessionBase> action) {
 		publishMessage("all", castSerializable(action));
 		return this;
 	}
 
 	@Override
-	public App byId(String id, Action<? extends SessionBase> action) {
+	public Manager byId(String id, Action<? extends SessionBase> action) {
 		publishMessage("byId", id, castSerializable(action));
 		return this;
 	}
 
 	@Override
-	public App byTag(String name, Action<? extends SessionBase> action) {
+	public Manager byTag(String name, Action<? extends SessionBase> action) {
 		publishMessage("byTag", name, castSerializable(action));
 		return this;
 	}
 	
 	@Override
-	public App byTag(String[] names, Action<? extends SessionBase> action) {
+	public Manager byTag(String[] names, Action<? extends SessionBase> action) {
 		publishMessage("byTag", names, castSerializable(action));
 		return this;
 	}
@@ -104,33 +104,33 @@ public class AppProxy implements App {
 	}
 
 	@Override
-	public App httpAction(Action<HttpExchange> action) {
-		return app.httpAction(action);
+	public Manager httpAction(Action<HttpExchange> action) {
+		return manager.httpAction(action);
 	}
 
 	@Override
-	public App webSocketAction(Action<WebSocket> action) {
-		return app.webSocketAction(action);
+	public Manager webSocketAction(Action<WebSocket> action) {
+		return manager.webSocketAction(action);
 	}
 
 	@Override
-	public App socketAction(Action<Socket> action) {
-		return app.socketAction(action);
+	public Manager socketAction(Action<Socket> action) {
+		return manager.socketAction(action);
 	}
 
 	@Override
-	public App sessionAction(Action<? extends SessionBase> action) {
-		return app.sessionAction(action);
+	public Manager sessionAction(Action<? extends SessionBase> action) {
+		return manager.sessionAction(action);
 	}
 
 	@Override
-	public App closeAction(Action<Void> action) {
-		return app.closeAction(action);
+	public Manager closeAction(Action<Void> action) {
+		return manager.closeAction(action);
 	}
 
 	@Override
 	public void close() {
-		app.close();
+		manager.close();
 	}
 
 	private static class LockedOptions extends Options {

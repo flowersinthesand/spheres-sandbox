@@ -1,9 +1,9 @@
 package com.github.flowersinthesand.spheres;
 
-public abstract class MessengerSupport implements Messenger, AppInsideAware {
+public abstract class MessengerSupport implements Messenger, ManagerInsideAware {
 
 	protected Actions<MessageHolder> messageActions = new ConcurrentActions<>(new Actions.Options());
-	protected AppInside app;
+	protected ManagerInside manager;
 
 	@Override
 	public Actions<MessageHolder> messageActions() {
@@ -11,12 +11,12 @@ public abstract class MessengerSupport implements Messenger, AppInsideAware {
 	}
 
 	@Override
-	public void setAppInside(AppInside app) {
-		this.app = app;
+	public void setManagerInside(ManagerInside manager) {
+		this.manager = manager;
 	}
 
 	protected String topicName() {
-		return "spheres:" + app.options().uri();
+		return "spheres:" + manager.options().uri();
 	}
 
 }

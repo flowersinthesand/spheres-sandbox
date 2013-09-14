@@ -1,10 +1,10 @@
 package com.github.flowersinthesand.spheres;
 
-public abstract class BridgeSupport implements Bridge, AppInsideAware {
+public abstract class BridgeSupport implements Bridge, ManagerInsideAware {
 
 	protected Actions<HttpExchange> httpActions = new SimpleActions<>(new Actions.Options());
 	protected Actions<WebSocket> webSocketActions = new SimpleActions<>(new Actions.Options());
-	protected AppInside app;
+	protected ManagerInside manager;
 
 	@Override
 	public Actions<HttpExchange> httpActions() {
@@ -17,12 +17,12 @@ public abstract class BridgeSupport implements Bridge, AppInsideAware {
 	}
 
 	@Override
-	public void setAppInside(AppInside app) {
-		this.app = app;
+	public void setManagerInside(ManagerInside manager) {
+		this.manager = manager;
 	}
 
 	protected String uri() {
-		return app.options().uri();
+		return manager.options().uri();
 	}
 
 }

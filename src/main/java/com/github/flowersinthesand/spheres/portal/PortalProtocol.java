@@ -35,7 +35,7 @@ public class PortalProtocol extends ProtocolSupport implements Initable {
 	@Override
 	public void init() {
 		heartbeatExecutor = Executors.newSingleThreadScheduledExecutor();
-		app.closeAction(new VoidAction() {
+		manager.closeAction(new VoidAction() {
 			@Override
 			public void on() {
 				heartbeatExecutor.shutdown();
