@@ -3,7 +3,6 @@ package com.github.flowersinthesand.spheres.portal;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executors;
@@ -51,10 +50,17 @@ public class PortalProtocol extends ProtocolSupport implements Initable {
 			http.setCorsHeaders();
 			http.setNoCacheHeaders();
 			String when = http.params().get("when").get(0);
-			if (when.equals("open") || when.equals("poll")) {
-				openHttpSocket(http);
-			} else if (when.equals("abort")) {
-				abort(http.params().get("id").get(0));
+			String id = http.params().get("id").get(0);
+			switch (when) {
+			case "open":
+				socketActions.fire(openHttpSocket(http));
+				break;
+			case "poll":
+				((PortalHttpLongPollSocket) sockets.get(id)).refresh(http);
+				break;
+			case "abort":
+				abort(id);
+				break;
 			}
 			break;
 		case POST:
@@ -67,21 +73,16 @@ public class PortalProtocol extends ProtocolSupport implements Initable {
 		}
 	}
 
-	private void openHttpSocket(HttpExchange http) {
-		Map<String, List<String>> params = http.params();
-		String transport = params.get("transport").get(0);
-	
-		if (transport.equals("sse") || transport.startsWith("stream")) {
-			socketActions.fire(new PortalHttpStreamSocket(http));
-		} else if (transport.startsWith("longpoll")) {
-			String id = params.get("id").get(0);
-			String when = params.get("when").get(0);
-
-			if (when.equals("open")) {
-				socketActions.fire(new PortalHttpLongPollSocket(http));
-			} else if (when.equals("poll")) {
-				((PortalHttpLongPollSocket) sockets.get(id)).refresh(http);
-			}
+	private HttpSocket openHttpSocket(HttpExchange http) {
+		String transport = http.params().get("transport").get(0);
+		switch (transport) {
+		case "sse":
+		case "stream":
+			return new PortalHttpStreamSocket(http);
+		case "longpoll":
+			return new PortalHttpLongPollSocket(http);
+		default:
+			throw new UnsupportedOperationException("[" + transport + "] is not supported");
 		}
 	}
 
