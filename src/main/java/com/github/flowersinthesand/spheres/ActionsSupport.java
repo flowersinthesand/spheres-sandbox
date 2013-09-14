@@ -9,14 +9,14 @@ public abstract class ActionsSupport<T> implements Actions<T> {
 
 	protected ActionsSupport(Actions.Options o) {
 		this.options = o;
-		this.actionList = actionList();
+		this.actionList = createList();
 	}
 
 	@Override
 	public void add(Action<T> action) {
 		throwIfDisabled();
 		if (options.memory() && fired()) {
-			action.on(cached());
+			fireOne(action, cachedData());
 		}
 		if (!options.unique() || (options.unique() && !actionList.contains(action))) {
 			actionList.add(action);
@@ -45,8 +45,12 @@ public abstract class ActionsSupport<T> implements Actions<T> {
 
 	protected void fireList(T data) {
 		for (Action<T> action : actionList) {
-			action.on(data);
+			fireOne(action, data);
 		}
+	}
+
+	protected void fireOne(Action<T> action, T data) {
+		action.on(data);
 	}
 
 	protected void throwIfDisabled() {
@@ -62,8 +66,8 @@ public abstract class ActionsSupport<T> implements Actions<T> {
 		}
 	}
 
-	protected abstract List<Action<T>> actionList();
+	protected abstract List<Action<T>> createList();
 
-	protected abstract T cached();
+	protected abstract T cachedData();
 
 }

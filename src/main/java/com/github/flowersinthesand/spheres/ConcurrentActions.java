@@ -9,20 +9,20 @@ public class ConcurrentActions<T> extends ActionsSupport<T> {
 
 	private AtomicBoolean disabled = new AtomicBoolean();
 	private AtomicBoolean fired = new AtomicBoolean();
-	private AtomicReference<T> cached = new AtomicReference<>();
+	private AtomicReference<T> cachedData = new AtomicReference<>();
 
 	public ConcurrentActions(Actions.Options o) {
 		super(o);
 	}
 
 	@Override
-	protected List<Action<T>> actionList() {
+	protected List<Action<T>> createList() {
 		return new CopyOnWriteArrayList<>();
 	}
 
 	@Override
-	protected T cached() {
-		return cached.get();
+	protected T cachedData() {
+		return cachedData.get();
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class ConcurrentActions<T> extends ActionsSupport<T> {
 		throwIfFired();
 		fired.set(true);
 		if (options.memory()) {
-			this.cached.set(data);
+			this.cachedData.set(data);
 		}
 		fireList(data);
 	}

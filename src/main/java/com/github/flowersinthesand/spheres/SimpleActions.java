@@ -7,20 +7,20 @@ public class SimpleActions<T> extends ActionsSupport<T> {
 
 	private boolean disabled;
 	private boolean fired;
-	private T cached;
+	private T cachedData;
 
 	public SimpleActions(Actions.Options o) {
 		super(o);
 	}
 
 	@Override
-	protected List<Action<T>> actionList() {
+	protected List<Action<T>> createList() {
 		return new ArrayList<>();
 	}
 
 	@Override
-	protected T cached() {
-		return cached;
+	protected T cachedData() {
+		return cachedData;
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class SimpleActions<T> extends ActionsSupport<T> {
 		throwIfFired();
 		fired = true;
 		if (options.memory()) {
-			this.cached = data;
+			this.cachedData = data;
 		}
 		fireList(data);
 	}
