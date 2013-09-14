@@ -37,11 +37,6 @@ public abstract class WsSocketWrapper extends SocketSupport implements WsSocket 
 	}
 
 	@Override
-	public synchronized void write(String data) {
-		webSocket.send(data);
-	}
-
-	@Override
 	public synchronized void close() {
 		webSocket.close();
 	}

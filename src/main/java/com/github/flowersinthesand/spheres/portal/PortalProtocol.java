@@ -248,12 +248,7 @@ public class PortalProtocol extends ProtocolSupport implements Initable {
 				builder.append("data: ").append(datum).append("\n");
 			}
 			builder.append("\n");
-			write(builder.toString());
-		}
-
-		@Override
-		public synchronized void write(String data) {
-			http.write(data);
+			http.write(builder.toString());
 		}
 
 		@Override
@@ -349,15 +344,10 @@ public class PortalProtocol extends ProtocolSupport implements Initable {
 				builder.append(data);
 			}
 
-			write(builder.toString());
-			close();
-		}
-
-		@Override
-		public synchronized void write(String data) {
-			HttpExchange http = httpRef.get();
+			HttpExchange http = httpRef.getAndSet(null);
 			if (http != null) {
-				http.write(data);
+				http.write(builder.toString());
+				http.close();
 			}
 		}
 

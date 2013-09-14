@@ -8,11 +8,4 @@ package com.github.flowersinthesand.spheres;
  * 
  * @author Donghwan Kim
  */
-public interface Socket extends SocketBase, Identifiable, Taggable, Wrapper {
-
-	/**
-	 * Writes a data to the wire without formatting.
-	 */
-	void write(String data);
-
-}
+public interface Socket extends SocketBase, Identifiable, Taggable, Wrapper {}
