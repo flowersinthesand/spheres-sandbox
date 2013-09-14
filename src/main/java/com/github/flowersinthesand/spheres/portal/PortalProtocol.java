@@ -238,7 +238,7 @@ public class PortalProtocol extends ProtocolSupport implements Initable {
 		}
 
 		@Override
-		public void send(String data) {
+		public synchronized void send(String data) {
 			StringBuilder builder = new StringBuilder();
 			if (isAndroid) {
 				builder.append(padding2K).append(padding2K);
@@ -251,12 +251,12 @@ public class PortalProtocol extends ProtocolSupport implements Initable {
 		}
 
 		@Override
-		public void write(String data) {
+		public synchronized void write(String data) {
 			http.write(data);
 		}
 
 		@Override
-		public void close() {
+		public synchronized void close() {
 			http.close();
 		}
 		
@@ -332,7 +332,7 @@ public class PortalProtocol extends ProtocolSupport implements Initable {
 		}
 
 		@Override
-		public void send(String data) {
+		public synchronized void send(String data) {
 			if (!data.startsWith("[")) {
 				buffer.add(data);
 			}
@@ -353,7 +353,7 @@ public class PortalProtocol extends ProtocolSupport implements Initable {
 		}
 
 		@Override
-		public void write(String data) {
+		public synchronized void write(String data) {
 			HttpExchange http = httpRef.get();
 			if (http != null) {
 				http.write(data);
@@ -361,7 +361,7 @@ public class PortalProtocol extends ProtocolSupport implements Initable {
 		}
 
 		@Override
-		public void close() {
+		public synchronized void close() {
 			HttpExchange http = httpRef.getAndSet(null);
 			if (http != null) {
 				http.close();
