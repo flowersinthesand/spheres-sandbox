@@ -6,8 +6,8 @@ Spheres is a realtime web application framework that runs on the JVM.
 ## Main interface
 ### For the Application developer
 #### The Portal
-* [App](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/poratl/App.java).
-* [Session](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/portal/Session.java).
+* [App](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/portal/App.java)
+* [Session](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/portal/Session.java)
 
 ### For the Bridge provider
 * [Bridge](https://github.com/flowersinthesand/spheres-sandbox/blob/master/src/main/java/com/github/flowersinthesand/spheres/Bridge.java)
