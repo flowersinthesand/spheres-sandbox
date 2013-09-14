@@ -10,6 +10,10 @@ public interface Session extends SessionBase, Identifiable, UriAccessor, Taggabl
 
 	Session on(String event, Action<?> action);
 
+	Session off(String event, Action<?> action);
+
+	Session once(String event, Action<?> action);
+
 	Session tag(String... name);
 
 	Session untag(String... name);

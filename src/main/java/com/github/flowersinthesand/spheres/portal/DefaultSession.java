@@ -161,6 +161,29 @@ public class DefaultSession extends SessionBaseSupport implements Session {
 		return this;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public Session off(String event, Action<?> action) {
+		ActionsHolder<?> holder = holders.get(event);
+		if (holder != null) {
+			// To delete the given action and its proxy added by once
+			holder.actions.remove(new ActionProxy(action));
+		}
+		return this;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public Session once(final String event, final Action<?> action) {
+		return on(event, new ActionProxy(action) {
+			@Override
+			public void on(Object object) {
+				off(event, this);
+				super.on(object);
+			}
+		});
+	}
+
 	private Type findRequiredDataType(Class<?> clazz) {
 		for (Type genericInterface : clazz.getGenericInterfaces()) {
 			if (genericInterface instanceof ParameterizedType) {
@@ -242,6 +265,39 @@ public class DefaultSession extends SessionBaseSupport implements Session {
 			this.dataType = mapper.constructType(dataType);
 			this.actions = actions;
 		}
+	}
+
+	private static class ActionProxy<T> implements Action<T> {
+
+		private Action<T> action;
+
+		public ActionProxy(Action<T> action) {
+			this.action = action;
+		}
+
+		@Override
+		public void on(T object) {
+			action.on(object);
+		}
+		
+		@Override
+		public int hashCode() {
+			return action.hashCode();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj instanceof ActionProxy) {
+				obj = ((ActionProxy<?>) obj).action;
+			}
+			return action.equals(obj);
+		}
+
+		@Override
+		public String toString() {
+			return "Proxy for " + action.toString();
+		}
+
 	}
 
 }
