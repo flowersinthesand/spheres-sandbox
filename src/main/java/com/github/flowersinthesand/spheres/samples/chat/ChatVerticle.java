@@ -63,11 +63,11 @@ public class ChatVerticle extends Verticle {
 	}
 
 	private int port() {
-		int port = 8080;
 		try {
-			port = Integer.valueOf(System.getProperty("port"));
-		} catch (NumberFormatException e) {}
-		return port;
+			return Integer.valueOf(System.getProperty("port"));
+		} catch (NumberFormatException e) {
+			return 8080;
+		}
 	}
 
 	@Override
