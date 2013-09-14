@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -28,8 +29,8 @@ public class DefaultSession extends SessionBaseSupport implements Session {
 
 	private static ObjectMapper mapper = new ObjectMapper();
 
-	private Map<String, ActionsHolder<?>> holders = new ConcurrentHashMap<>();
-	private Map<String, Action<Object>> replies = new ConcurrentHashMap<>();
+	private ConcurrentMap<String, ActionsHolder<?>> holders = new ConcurrentHashMap<>();
+	private ConcurrentMap<String, Action<Object>> replies = new ConcurrentHashMap<>();
 
 	public DefaultSession(Socket socket) {
 		super(socket);
@@ -53,17 +54,16 @@ public class DefaultSession extends SessionBaseSupport implements Session {
 					throw new RuntimeException(e);
 				}
 
-				String type = (String) m.get("type");
-				if (holders.containsKey(type)) {
-					@SuppressWarnings("unchecked")
-					ActionsHolder<Object> holder = (ActionsHolder<Object>) holders.get(type);
-					Object actionData;
+				@SuppressWarnings("unchecked")
+				ActionsHolder<Object> holder = (ActionsHolder<Object>) holders.get((String) m.get("type"));
+				if (holder != null) {
+					Object data;
 					if (Reply.class == holder.dataType.getRawClass()) {
-						actionData = new SimpleReply(m, holder.dataType.containedType(0));
+						data = new SimpleReply(m, holder.dataType.containedType(0));
 					} else {
-						actionData = mapper.convertValue(m.get("data"), holder.dataType);
+						data = mapper.convertValue(m.get("data"), holder.dataType);
 					}
-					holder.actions.fire(actionData);
+					holder.actions.fire(data);
 				}
 			}
 		});
@@ -74,8 +74,8 @@ public class DefaultSession extends SessionBaseSupport implements Session {
 				String eventId = (String) data.get("id");
 				Object response = data.get("data");
 
-				if (replies.containsKey(eventId)) {
-					Action<Object> reply = replies.remove(eventId);
+				Action<Object> reply = replies.remove(eventId);
+				if (reply != null) {
 					reply.on(mapper.convertValue(response, mapper.constructType(findRequiredDataType(reply.getClass()))));
 				}
 			}
@@ -148,11 +148,16 @@ public class DefaultSession extends SessionBaseSupport implements Session {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Session on(String event, Action<?> action) {
-		if (!holders.containsKey(event)) {
+		ActionsHolder<?> holder = holders.get(event);
+		if (holder == null) {
 			Type type = findRequiredDataType(action.getClass());
-			holders.put(event, new ActionsHolder<>(type, new ConcurrentActions<>(new Actions.Options())));
+			ActionsHolder<?> value = new ActionsHolder<>(type, new ConcurrentActions<>(new Actions.Options()));
+			holder = holders.putIfAbsent(event, value);
+			if (holder == null) {
+				holder = value;
+			}
 		}
-		holders.get(event).actions.add((Action) action);
+		holder.actions.add((Action) action);
 		return this;
 	}
 
