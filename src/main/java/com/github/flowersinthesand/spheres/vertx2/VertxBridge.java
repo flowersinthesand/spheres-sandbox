@@ -22,10 +22,9 @@ import org.vertx.java.core.http.impl.WebSocketMatcher.Match;
 
 import com.github.flowersinthesand.spheres.BridgeSupport;
 import com.github.flowersinthesand.spheres.HttpExchangeSupport;
-import com.github.flowersinthesand.spheres.Initable;
 import com.github.flowersinthesand.spheres.WebSocketSupport;
 
-public class VertxBridge extends BridgeSupport implements Initable {
+public class VertxBridge extends BridgeSupport {
 
 	private final HttpServer httpServer;
 

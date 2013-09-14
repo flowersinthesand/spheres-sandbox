@@ -3,14 +3,13 @@ package com.github.flowersinthesand.spheres.hazelcast;
 import java.io.Serializable;
 import java.util.Map;
 
-import com.github.flowersinthesand.spheres.Initable;
 import com.github.flowersinthesand.spheres.MessageHolder;
 import com.github.flowersinthesand.spheres.MessengerSupport;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.ITopic;
 import com.hazelcast.core.MessageListener;
 
-public class HazelcastMessenger extends MessengerSupport implements Initable {
+public class HazelcastMessenger extends MessengerSupport {
 
 	private final HazelcastInstance hazelcast;
 	private ITopic<Map<String, Serializable>> topic;

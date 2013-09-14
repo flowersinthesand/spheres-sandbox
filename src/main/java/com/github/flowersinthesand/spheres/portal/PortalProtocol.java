@@ -18,7 +18,6 @@ import com.github.flowersinthesand.spheres.Action;
 import com.github.flowersinthesand.spheres.Actions;
 import com.github.flowersinthesand.spheres.HttpExchange;
 import com.github.flowersinthesand.spheres.HttpSocket;
-import com.github.flowersinthesand.spheres.Initable;
 import com.github.flowersinthesand.spheres.ProtocolSupport;
 import com.github.flowersinthesand.spheres.Socket;
 import com.github.flowersinthesand.spheres.SocketSupport;
@@ -27,7 +26,7 @@ import com.github.flowersinthesand.spheres.VoidAction;
 import com.github.flowersinthesand.spheres.WebSocket;
 import com.github.flowersinthesand.spheres.WsSocketWrapper;
 
-public class PortalProtocol extends ProtocolSupport implements Initable {
+public class PortalProtocol extends ProtocolSupport {
 
 	private Pattern socketIdRegex = Pattern.compile("\"socket\":\"([^\"]+)\"");
 	private ScheduledExecutorService heartbeatExecutor;
