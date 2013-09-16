@@ -2,20 +2,20 @@ package com.github.flowersinthesand.spheres;
 
 public abstract class AppBaseSupport implements AppBase {
 
-	protected final Manager manager;
+	protected final SessionManager sessionManager;
 
-	public AppBaseSupport(Manager manager) {
-		this.manager = manager;
+	public AppBaseSupport(SessionManager sessionManager) {
+		this.sessionManager = sessionManager;
 	}
 
 	@Override
 	public void close() {
-		manager.close();
+		sessionManager.close();
 	}
 	
 	@Override
 	public <T> T unwrap(Class<T> clazz) {
-		return Manager.class.isAssignableFrom(clazz) ? clazz.cast(manager) : null;
+		return SessionManager.class.isAssignableFrom(clazz) ? clazz.cast(sessionManager) : null;
 	}
 
 }

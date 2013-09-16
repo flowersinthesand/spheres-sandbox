@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-public class DefaultManager implements Manager, ManagerInside {
+public class DefaultManager implements SessionManager, SessionManagerInside {
 
 	private final Options options;
 	private final Bridge bridge;
@@ -70,8 +70,8 @@ public class DefaultManager implements Manager, ManagerInside {
 		});
 
 		for (Object comp : new Object[] { bridge, protocol }) {
-			if (comp instanceof ManagerInsideAware) {
-				((ManagerInsideAware) comp).setManagerInside(this);
+			if (comp instanceof SessionManagerInsideAware) {
+				((SessionManagerInsideAware) comp).setManagerInside(this);
 			}
 			if (comp instanceof Initable) {
 				((Initable) comp).init();
@@ -91,7 +91,7 @@ public class DefaultManager implements Manager, ManagerInside {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Manager all(Action<? extends SessionBase> action) {
+	public SessionManager all(Action<? extends SessionBase> action) {
 		for (Socket socket : sockets.values()) {
 			((Action<SessionBase>) action).on(sessions.get(socket));
 		}
@@ -100,7 +100,7 @@ public class DefaultManager implements Manager, ManagerInside {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Manager byId(String id, Action<? extends SessionBase> action) {
+	public SessionManager byId(String id, Action<? extends SessionBase> action) {
 		Socket socket = sockets.get(id);
 		if (socket != null) {
 			((Action<SessionBase>) action).on(sessions.get(socket));
@@ -110,7 +110,7 @@ public class DefaultManager implements Manager, ManagerInside {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Manager byTag(String name, Action<? extends SessionBase> action) {
+	public SessionManager byTag(String name, Action<? extends SessionBase> action) {
 		for (Socket socket : sockets.values()) {
 			if (socket.tags().contains(name)) {
 				((Action<SessionBase>) action).on(sessions.get(socket));
@@ -121,7 +121,7 @@ public class DefaultManager implements Manager, ManagerInside {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Manager byTag(String[] names, Action<? extends SessionBase> action) {
+	public SessionManager byTag(String[] names, Action<? extends SessionBase> action) {
 		List<String> nameList = Arrays.asList(names);
 		for (Socket socket : sockets.values()) {
 			if (socket.tags().containsAll(nameList)) {
@@ -132,32 +132,32 @@ public class DefaultManager implements Manager, ManagerInside {
 	}
 
 	@Override
-	public Manager httpAction(Action<HttpExchange> action) {
+	public SessionManager httpAction(Action<HttpExchange> action) {
 		bridge.httpActions().add(action);
 		return this;
 	}
 
 	@Override
-	public Manager webSocketAction(Action<WebSocket> action) {
+	public SessionManager webSocketAction(Action<WebSocket> action) {
 		bridge.webSocketActions().add(action);
 		return this;
 	}
 
 	@Override
-	public Manager socketAction(Action<Socket> action) {
+	public SessionManager socketAction(Action<Socket> action) {
 		protocol.socketActions().add(action);
 		return this;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Manager sessionAction(Action<? extends SessionBase> action) {
+	public SessionManager sessionAction(Action<? extends SessionBase> action) {
 		protocol.sessionActions().add((Action) action);
 		return this;
 	}
 
 	@Override
-	public Manager closeAction(Action<Void> action) {
+	public SessionManager closeAction(Action<Void> action) {
 		closeActions.add(action);
 		return this;
 	}

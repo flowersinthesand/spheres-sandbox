@@ -3,8 +3,8 @@ package com.github.flowersinthesand.spheres;
 import java.io.Serializable;
 
 /**
- * In the case where the application is clustered, to call Manager's methods retrieving session like
- * {@link Manager#all(Action)}, action to be passed should be able to be serialized. In other words,
+ * In the case where the application is clustered, to call SessionManager's methods retrieving session like
+ * {@link SessionManager#all(Action)}, action to be passed should be able to be serialized. In other words,
  * only in those situations, an action should implement {@link Serializable}.
  * <p>
  * See the provided link, serialization of inner classes including local and anonymous classes, is

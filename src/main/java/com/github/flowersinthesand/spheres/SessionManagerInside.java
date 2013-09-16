@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentMap;
  * 
  * @author Donghwan Kim
  */
-public interface ManagerInside extends Manager {
+public interface SessionManagerInside extends SessionManager {
 
 	/**
 	 * Initializes the application.

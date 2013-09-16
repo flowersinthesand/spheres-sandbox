@@ -2,13 +2,13 @@ package com.github.flowersinthesand.spheres.portal;
 
 import com.github.flowersinthesand.spheres.Action;
 import com.github.flowersinthesand.spheres.AppBaseSupport;
-import com.github.flowersinthesand.spheres.Manager;
+import com.github.flowersinthesand.spheres.SessionManager;
 import com.github.flowersinthesand.spheres.SerializableAction;
 
 public class PortalApp extends AppBaseSupport implements App {
 
-	public PortalApp(Manager manager) {
-		super(manager);
+	public PortalApp(SessionManager sessionManager) {
+		super(sessionManager);
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class PortalApp extends AppBaseSupport implements App {
 
 	@Override
 	public App all(Action<Session> action) {
-		manager.all(action);
+		sessionManager.all(action);
 		return this;
 	}
 
@@ -39,7 +39,7 @@ public class PortalApp extends AppBaseSupport implements App {
 
 	@Override
 	public App byId(String id, Action<Session> action) {
-		manager.byId(id, action);
+		sessionManager.byId(id, action);
 		return this;
 	}
 
@@ -70,13 +70,13 @@ public class PortalApp extends AppBaseSupport implements App {
 
 	@Override
 	public App byTag(String[] names, Action<Session> action) {
-		manager.byTag(names, action);
+		sessionManager.byTag(names, action);
 		return this;
 	}
 
 	@Override
 	public App sessionAction(Action<Session> action) {
-		manager.sessionAction(action);
+		sessionManager.sessionAction(action);
 		return this;
 	}
 

@@ -5,58 +5,58 @@ package com.github.flowersinthesand.spheres;
  * 
  * @author Donghwan Kim
  */
-public interface Manager {
+public interface SessionManager {
 
 	/**
 	 * Retrieves all the session and executes the given action. See, {@link SerializableAction} if
 	 * you are going to cluster the application.
 	 */
-	Manager all(Action<? extends SessionBase> action);
+	SessionManager all(Action<? extends SessionBase> action);
 
 	/**
 	 * Finds the session whose the underlying socket has a given id and executes the given action.
 	 * See, {@link SerializableAction} if you are going to cluster the application.
 	 */
-	Manager byId(String id, Action<? extends SessionBase> action);
+	SessionManager byId(String id, Action<? extends SessionBase> action);
 
 	/**
 	 * Finds the session whose the underlying socket has been tagged with the the specified tag name
 	 * and executes the given action. See, {@link SerializableAction} if you are going to cluster
 	 * the application.
 	 */
-	Manager byTag(String name, Action<? extends SessionBase> action);
+	SessionManager byTag(String name, Action<? extends SessionBase> action);
 
 	/**
 	 * Finds the session whose the underlying socket has been tagged with the the specified tag
 	 * names and executes the given action. See, {@link SerializableAction} if you are going to
 	 * cluster the application.
 	 */
-	Manager byTag(String[] names, Action<? extends SessionBase> action);
+	SessionManager byTag(String[] names, Action<? extends SessionBase> action);
 
 	/**
 	 * Registers an action to be called when the HttpExchange is prepared.
 	 */
-	Manager httpAction(Action<HttpExchange> action);
+	SessionManager httpAction(Action<HttpExchange> action);
 
 	/**
 	 * Registers an action to be called when the WebSocket is opened.
 	 */
-	Manager webSocketAction(Action<WebSocket> action);
+	SessionManager webSocketAction(Action<WebSocket> action);
 
 	/**
 	 * Registers an action to be called when the Socket is opened.
 	 */
-	Manager socketAction(Action<Socket> action);
+	SessionManager socketAction(Action<Socket> action);
 
 	/**
 	 * Registers an action to be called when the Session is opened.
 	 */
-	Manager sessionAction(Action<? extends SessionBase> action);
+	SessionManager sessionAction(Action<? extends SessionBase> action);
 
 	/**
 	 * Registers an action to be called when the application closes.
 	 */
-	Manager closeAction(Action<Void> action);
+	SessionManager closeAction(Action<Void> action);
 
 	/**
 	 * Closes the application

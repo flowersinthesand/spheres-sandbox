@@ -8,8 +8,8 @@ import org.vertx.java.core.http.HttpServerRequest;
 import org.vertx.java.platform.Verticle;
 
 import com.github.flowersinthesand.spheres.Action;
-import com.github.flowersinthesand.spheres.Manager;
-import com.github.flowersinthesand.spheres.ManagerProxy;
+import com.github.flowersinthesand.spheres.SessionManager;
+import com.github.flowersinthesand.spheres.SessionManagerProxy;
 import com.github.flowersinthesand.spheres.Options;
 import com.github.flowersinthesand.spheres.hazelcast.HazelcastMessenger;
 import com.github.flowersinthesand.spheres.portal.App;
@@ -44,9 +44,9 @@ public class ChatVerticle extends Verticle {
 			.bridge(new VertxBridge(httpServer))
 			.protocol(new PortalProtocol())
 			.messenger(new HazelcastMessenger(HazelcastInstanceFactory.newHazelcastInstance(new Config())));
-		Manager manager = new ManagerProxy(options);
+		SessionManager sessionManager = new SessionManagerProxy(options);
 		
-		app = new PortalApp(manager);
+		app = new PortalApp(sessionManager);
 		app.sessionAction(new Action<Session>() {
 			@Override
 			public void on(Session session) {

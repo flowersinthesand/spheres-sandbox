@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class ManagerProxy implements Manager {
+public class SessionManagerProxy implements SessionManager {
 
-	private final ManagerInside manager;
+	private final SessionManagerInside manager;
 	private final Messenger messenger;
 
-	public ManagerProxy(final Options o) {
+	public SessionManagerProxy(final Options o) {
 		if (o.messenger() == null) {
 			o.messenger(new FriendlessMessenger());
 		}
@@ -43,8 +43,8 @@ public class ManagerProxy implements Manager {
 		});
 
 		for (Object comp : new Object[] { messenger }) {
-			if (comp instanceof ManagerInsideAware) {
-				((ManagerInsideAware) comp).setManagerInside(manager);
+			if (comp instanceof SessionManagerInsideAware) {
+				((SessionManagerInsideAware) comp).setManagerInside(manager);
 			}
 			if (comp instanceof Initable) {
 				((Initable) comp).init();
@@ -53,25 +53,25 @@ public class ManagerProxy implements Manager {
 	}
 
 	@Override
-	public Manager all(Action<? extends SessionBase> action) {
+	public SessionManager all(Action<? extends SessionBase> action) {
 		publishMessage("all", castSerializable(action));
 		return this;
 	}
 
 	@Override
-	public Manager byId(String id, Action<? extends SessionBase> action) {
+	public SessionManager byId(String id, Action<? extends SessionBase> action) {
 		publishMessage("byId", id, castSerializable(action));
 		return this;
 	}
 
 	@Override
-	public Manager byTag(String name, Action<? extends SessionBase> action) {
+	public SessionManager byTag(String name, Action<? extends SessionBase> action) {
 		publishMessage("byTag", name, castSerializable(action));
 		return this;
 	}
 	
 	@Override
-	public Manager byTag(String[] names, Action<? extends SessionBase> action) {
+	public SessionManager byTag(String[] names, Action<? extends SessionBase> action) {
 		publishMessage("byTag", names, castSerializable(action));
 		return this;
 	}
@@ -104,27 +104,27 @@ public class ManagerProxy implements Manager {
 	}
 
 	@Override
-	public Manager httpAction(Action<HttpExchange> action) {
+	public SessionManager httpAction(Action<HttpExchange> action) {
 		return manager.httpAction(action);
 	}
 
 	@Override
-	public Manager webSocketAction(Action<WebSocket> action) {
+	public SessionManager webSocketAction(Action<WebSocket> action) {
 		return manager.webSocketAction(action);
 	}
 
 	@Override
-	public Manager socketAction(Action<Socket> action) {
+	public SessionManager socketAction(Action<Socket> action) {
 		return manager.socketAction(action);
 	}
 
 	@Override
-	public Manager sessionAction(Action<? extends SessionBase> action) {
+	public SessionManager sessionAction(Action<? extends SessionBase> action) {
 		return manager.sessionAction(action);
 	}
 
 	@Override
-	public Manager closeAction(Action<Void> action) {
+	public SessionManager closeAction(Action<Void> action) {
 		return manager.closeAction(action);
 	}
 

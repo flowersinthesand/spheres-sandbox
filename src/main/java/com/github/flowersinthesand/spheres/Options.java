@@ -1,7 +1,7 @@
 package com.github.flowersinthesand.spheres;
 
 /**
- * Options to create an Manager.
+ * Options to create an SessionManager.
  * 
  * @author Donghwan Kim
  */

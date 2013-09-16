@@ -1,10 +1,10 @@
 package com.github.flowersinthesand.spheres;
 
-public abstract class BridgeSupport implements Bridge, ManagerInsideAware, Initable {
+public abstract class BridgeSupport implements Bridge, SessionManagerInsideAware, Initable {
 
 	protected Actions<HttpExchange> httpActions = new SimpleActions<>(new Actions.Options());
 	protected Actions<WebSocket> webSocketActions = new SimpleActions<>(new Actions.Options());
-	protected ManagerInside manager;
+	protected SessionManagerInside manager;
 
 	@Override
 	public void init() {}
@@ -20,7 +20,7 @@ public abstract class BridgeSupport implements Bridge, ManagerInsideAware, Inita
 	}
 
 	@Override
-	public void setManagerInside(ManagerInside manager) {
+	public void setManagerInside(SessionManagerInside manager) {
 		this.manager = manager;
 	}
 

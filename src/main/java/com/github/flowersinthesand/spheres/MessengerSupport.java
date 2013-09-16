@@ -1,9 +1,9 @@
 package com.github.flowersinthesand.spheres;
 
-public abstract class MessengerSupport implements Messenger, ManagerInsideAware, Initable {
+public abstract class MessengerSupport implements Messenger, SessionManagerInsideAware, Initable {
 
 	protected Actions<MessageHolder> messageActions = new ConcurrentActions<>(new Actions.Options());
-	protected ManagerInside manager;
+	protected SessionManagerInside manager;
 	
 	@Override
 	public void init() {}
@@ -14,7 +14,7 @@ public abstract class MessengerSupport implements Messenger, ManagerInsideAware,
 	}
 
 	@Override
-	public void setManagerInside(ManagerInside manager) {
+	public void setManagerInside(SessionManagerInside manager) {
 		this.manager = manager;
 	}
 
