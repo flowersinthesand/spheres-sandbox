@@ -13,17 +13,13 @@ package com.github.flowersinthesand.spheres;
  * 
  * @author Donghwan Kim
  */
-public interface AppBase<T> {
+public interface AppBase extends Wrapper {
 
 	/**
-	 * Registers an action to be called when the Session is opened.
+	 * As an wrapper, the implementation should provide the underlying session manager at least.
 	 */
-	T sessionAction(Action<? extends SessionBase> action);
-
-	/**
-	 * Registers an action to be called when the application closes.
-	 */
-	T closeAction(Action<Void> action);
+	@Override
+	<T> T unwrap(Class<T> clazz);
 
 	/**
 	 * Closes the application

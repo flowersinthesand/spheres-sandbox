@@ -5,7 +5,7 @@ import com.github.flowersinthesand.spheres.AppBaseSupport;
 import com.github.flowersinthesand.spheres.Manager;
 import com.github.flowersinthesand.spheres.SerializableAction;
 
-public class PortalApp extends AppBaseSupport<App> implements App {
+public class PortalApp extends AppBaseSupport implements App {
 
 	public PortalApp(Manager manager) {
 		super(manager);
@@ -71,6 +71,12 @@ public class PortalApp extends AppBaseSupport<App> implements App {
 	@Override
 	public App byTag(String[] names, Action<Session> action) {
 		manager.byTag(names, action);
+		return this;
+	}
+
+	@Override
+	public App sessionAction(Action<Session> action) {
+		manager.sessionAction(action);
 		return this;
 	}
 

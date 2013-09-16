@@ -5,7 +5,7 @@ package com.github.flowersinthesand.spheres;
  * 
  * @author Donghwan Kim
  */
-public interface Manager extends AppBase<Manager> {
+public interface Manager {
 
 	/**
 	 * Retrieves all the session and executes the given action. See, {@link SerializableAction} if
@@ -47,5 +47,20 @@ public interface Manager extends AppBase<Manager> {
 	 * Registers an action to be called when the Socket is opened.
 	 */
 	Manager socketAction(Action<Socket> action);
+
+	/**
+	 * Registers an action to be called when the Session is opened.
+	 */
+	Manager sessionAction(Action<? extends SessionBase> action);
+
+	/**
+	 * Registers an action to be called when the application closes.
+	 */
+	Manager closeAction(Action<Void> action);
+
+	/**
+	 * Closes the application
+	 */
+	void close();
 
 }
