@@ -12,8 +12,8 @@ import com.github.flowersinthesand.spheres.SessionManager;
 import com.github.flowersinthesand.spheres.SessionManagerProxy;
 import com.github.flowersinthesand.spheres.Options;
 import com.github.flowersinthesand.spheres.hazelcast.HazelcastMessenger;
-import com.github.flowersinthesand.spheres.portal.App;
-import com.github.flowersinthesand.spheres.portal.PortalApp;
+import com.github.flowersinthesand.spheres.portal.Server;
+import com.github.flowersinthesand.spheres.portal.PortalServer;
 import com.github.flowersinthesand.spheres.portal.PortalProtocol;
 import com.github.flowersinthesand.spheres.portal.Session;
 import com.github.flowersinthesand.spheres.vertx2.VertxBridge;
@@ -22,7 +22,7 @@ import com.hazelcast.instance.HazelcastInstanceFactory;
 
 public class ChatVerticle extends Verticle {
 
-	private App app;
+	private Server server;
 
 	@Override
 	public void start() {
@@ -46,14 +46,14 @@ public class ChatVerticle extends Verticle {
 			.messenger(new HazelcastMessenger(HazelcastInstanceFactory.newHazelcastInstance(new Config())));
 		SessionManager sessionManager = new SessionManagerProxy(options);
 		
-		app = new PortalApp(sessionManager);
-		app.sessionAction(new Action<Session>() {
+		server = new PortalServer(sessionManager);
+		server.sessionAction(new Action<Session>() {
 			@Override
 			public void on(Session session) {
 				session.on("message", new Action<Map<String, Object>>() {
 					@Override
 					public void on(Map<String, Object> data) {
-						app.all().send("message", data);
+						server.all().send("message", data);
 					}
 				});
 			}
@@ -72,7 +72,7 @@ public class ChatVerticle extends Verticle {
 
 	@Override
 	public void stop() {
-		app.close();
+		server.close();
 	}
 
 }
