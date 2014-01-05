@@ -3,6 +3,22 @@ Spheres (sandbox)
 
 Spheres is a realtime web application framework that runs on the JVM.
 
+**Notice**
+
+This was designed as a blueprint of Atmosphere 3 and now is and will be separated to several projects. The code in repository is not managed anymore.
+
+* [wes (Web Event Source)](flowersinthesand.github.io/wes/)
+<p>The <strong>wes</strong> (Web Event Source) is an abstraction layer in the form of event source for various event-driven asynchronous web client and server that runs on the Java Virtual Machine allowing the end user to choose the desired framework. The <strong>wes</strong> fits well when you need to write web application running on as many framework as possible like protocol implementation or middleware.</p>
+<p>An application written with <strong>wes</strong> can run on any supported server or client, on Java.</p>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
 ## Main interface
 ### For the Application developer
 #### The Portal
