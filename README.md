@@ -11,6 +11,9 @@ This was designed as a blueprint of Atmosphere 3 and now is and will be separate
 <p>The <strong>wes</strong> (Web Event Source) is an abstraction layer in the form of event source for various event-driven asynchronous web client and server that runs on the Java Virtual Machine allowing the end user to choose the desired framework. The <strong>wes</strong> fits well when you need to write web application running on as many framework as possible like protocol implementation or middleware.</p>
 <p>An application written with <strong>wes</strong> can run on any supported server or client, on Java.</p>
 
+* [Portal for Java](http://flowersinthesand.github.io/portal-java/)
+<p>A server implementation of the <a href="http://flowersinthesand.github.io/portal">Portal</a> written in Java, JavaScript library for real-time web application development. <strong>Portal for Java</strong> is a server-side wes application so that it can run on any framework wes supports.</p>
+
 <br/>
 <br/>
 <br/>
